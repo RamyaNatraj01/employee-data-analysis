@@ -1,52 +1,71 @@
 
 # Employee Data Analysis
 
-## Project Overview
-This project focuses on analyzing employee data to understand employee attrition and identify factors that influence employees to leave an organization.
+## Project overview
+This project explores employee data to identify patterns associated with employee attrition and to suggest areas for further retention analysis.
 
 ## Dataset
-- Dataset Name: IBM HR Analytics Employee Attrition
-- Source: Kaggle
+- Dataset: IBM HR Analytics Employee Attrition
 - Format: CSV
-- Total Records: 1470
-- Total Columns: 35
+- Records: 1,470
+- Columns: 35
+- Original data: `data/WA_Fn-UseC_-HR-Employee-Attrition.csv`
 
-## Technologies Used
-- Python
-- Pandas
-- NumPy
-- Jupyter Notebook
-- Git
-- GitHub
-
-## Project Structure
+## Project structure
 ```text
-Employee-Data-Analysis/
-│
+employee-data-analysis/
 ├── data/
 │   └── WA_Fn-UseC_-HR-Employee-Attrition.csv
-│
 ├── notebooks/
-│   └── employee_analysis.ipynb
-│
+│   ├── 01_data_overview.ipynb
+│   ├── 02_data_cleaning.ipynb
+│   ├── 03_exploratory_analysis.ipynb
+│   ├── 04_visualization.ipynb
+│   ├── clean_data.csv
+│   └── reports/
+│       └── figures/
+├── reports/
+│   └── employee_data_analysis_report.html  # generated during report export
+├── requirements.txt
 └── README.md
 ```
 
-## Initial Data Exploration
-The following operations were performed:
-1. Loaded the CSV dataset using Pandas.
-2. Checked dataset shape.
-3. Examined dataset information using info().
-4. Generated statistical summary using describe().
-5. Checked missing values using isna().sum().
-6. Checked duplicate records using duplicated().sum().
+The five chart images are currently saved in `notebooks/reports/figures/`, relative to the notebooks' working directory.
 
-## Business Questions
-1. Which department has the highest employee attrition rate?
-2. Does employee age have any relationship with employee attrition?
-3. Does monthly income influence employee attrition?
-4. Which job roles have the highest number of employees leaving the company?
-5. Does years of experience at the company affect employee attrition?
+## Setup and run
+Use Python 3 and run these commands from the repository root in PowerShell:
 
-## Project Objective
-To identify employee attrition patterns and provide insights that can help organizations improve employee retention.
+```powershell
+py -m pip install -r requirements.txt
+Set-Location notebooks
+py -m jupyter notebook
+```
+
+Run the notebooks in order:
+1. `01_data_overview.ipynb` reads the original CSV from `../data/`.
+2. `02_data_cleaning.ipynb` creates `clean_data.csv`.
+3. `03_exploratory_analysis.ipynb` and `04_visualization.ipynb` use `clean_data.csv`.
+
+Run each notebook from the `notebooks/` directory so its relative data and figure paths resolve correctly.
+
+## Report export
+The visualization notebook contains the findings summary and charts. From the repository root, execute it and export the HTML report with:
+
+```powershell
+py -m jupyter nbconvert --to html --execute `
+  --ExecutePreprocessor.cwd=notebooks `
+  --ExecutePreprocessor.timeout=120 `
+  --output-dir reports `
+  --output employee_data_analysis_report.html `
+  notebooks\04_visualization.ipynb
+```
+
+The generated report is `reports/employee_data_analysis_report.html`.
+
+## Business questions
+- How does attrition vary across departments and job roles?
+- How are age, monthly income, and tenure associated with attrition?
+- Which employee groups should be examined further as part of retention efforts?
+
+## Limitations
+This is a static sample dataset. The observed patterns describe associations and do not establish the causes of attrition or predict outcomes for other organizations.
